@@ -134,7 +134,7 @@ const AddCandidate = () => {
           <div className="container-item ">
             <form className="form flex flex-col" onSubmit={addCandidate}>
               <label className="text-center text-lg font-sans font-semibold mb-8 w-[40vw] flex justify-end gap-6 items-center">
-                Candidate's Name
+                Candidate&apos;s Name
                 <input
                   className="p-4 font-normal"
                   type="text"
@@ -172,7 +172,7 @@ const AddCandidate = () => {
   );
 };
 
-export function loadAdded(candidates) {
+function loadAdded(candidates) {
   const renderAdded = (candidate) => {
     return (
       <div key={candidate.id} className="container-list success">

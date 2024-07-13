@@ -11,7 +11,7 @@ import getWeb3 from '../getWeb3';
 import Election from '../contracts/Election.json';
 import { FaAngleDoubleDown } from "react-icons/fa";
 
-export default function page() {
+export default function Page() {
   const [ElectionInstance, setElectionInstance] = useState(undefined);
   const [account, setAccount] = useState(null);
   const [web3, setWeb3] = useState(null);
@@ -61,7 +61,7 @@ export default function page() {
         organizationTitle: electionDetails.organizationTitle,
       });
     } catch (error) {
-      alert('Failed to load web3, accounts, or contract. Check console for details.');
+      alert("Failed to load web3, accounts, or contract. Check console for details.");
       console.error(error);
     }
   };

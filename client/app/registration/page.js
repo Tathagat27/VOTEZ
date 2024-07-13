@@ -292,7 +292,7 @@ const Registration = () => {
                         <br />* Make sure your account address and Phone number
                         are correct. <br />* Admin might not approve your
                         account if the provided Phone number does not match the
-                        account address registered in admin's catalog.
+                        account address registered in admin&apos;s catalog.
                       </p>
                     </p>
                     <button

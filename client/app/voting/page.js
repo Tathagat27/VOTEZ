@@ -180,7 +180,7 @@ const Voting = () => {
                 currentVoter.hasVoted ? (
                   <div className="flex justify-center items-center gap-6 py-4 ">
                     <p className="text-3xl font-mono font-bold">
-                      You've casted your vote
+                      You&apos;ve casted your vote
                     </p>
                     <button
                       onClick={() => router.push("/results")}
@@ -205,7 +205,7 @@ const Voting = () => {
               <>
                 <div className="  ">
                   <center>
-                    <p>You're not registered. Please register first.</p>
+                    <p>You&apos;re not registered. Please register first.</p>
                     <br />
                     <button
                       onClick={() => router.push("/registration")}
