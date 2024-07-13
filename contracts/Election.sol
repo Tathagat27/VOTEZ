@@ -8,7 +8,7 @@ contract Election {
     bool start;
     bool end;
 
-    constructor() public {
+    constructor() {
         // Initilizing default values
         admin = msg.sender;
         candidateCount = 0;
