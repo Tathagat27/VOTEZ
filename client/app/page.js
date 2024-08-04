@@ -10,7 +10,7 @@ export default function Page() {
   const router = useRouter();
 
   return (
-    <main className="h-screen w-full overflow-auto flex flex-col gap-8 px-20 pt-8">
+    <main className="h-screen w-full overflow-hidden flex flex-col gap-8 px-20 pt-8">
       <div className="absolute self-end w-fit">
         <Link href={"https://github.com/Tathagat27/VOTEZ"}>
           <FaGithub className="text-2xl text-zinc-800 cursor-pointer" />
@@ -23,6 +23,12 @@ export default function Page() {
         VOTEZ
       </Link>
       <div className="h-[80vh] flex flex-col justify-center items-center">
+        <div class="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[-16%] rounded-full bg-[#f472b680] opacity-50 blur-[80px]">
+
+        </div>
+        <div class="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[220%] translate-y-[16%] rounded-full bg-[#fb923c80] opacity-50 blur-[80px]">
+
+        </div>
         <div className="text-7xl font-serif mb-4 mt-12 ">
           The Future of Secure Voting
         </div>
