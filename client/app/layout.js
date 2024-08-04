@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "VOTYS",
+  title: "VOTEZ",
   description: "An online voting system using blockchain(Ethereum).",
 };
 

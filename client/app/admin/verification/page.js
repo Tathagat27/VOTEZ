@@ -7,6 +7,7 @@ import AdminOnly from "../../Components/AdminOnly";
 import getWeb3 from "../../../getWeb3";
 import Election from "../../../contracts/Election.json";
 import Link from "next/link";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const Verification = () => {
   const [ElectionInstance, setElectionInstance] = useState(undefined);
@@ -15,6 +16,7 @@ const Verification = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [voterCount, setVoterCount] = useState(undefined);
   const [voters, setVoters] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const loadBlockchainData = async () => {
@@ -59,6 +61,7 @@ const Verification = () => {
           });
         }
         setVoters(votersArray);
+        setIsLoaded(true);
       } catch (error) {
         alert(
           `Failed to load web3, accounts, or contract. Check console for details.`
@@ -67,13 +70,10 @@ const Verification = () => {
       }
     };
 
-    if (!window.location.hash) {
-      window.location = window.location + "#loaded";
-      window.location.reload();
-    } else {
+    if (!isLoaded) {
       loadBlockchainData();
     }
-  }, []);
+  }, [isLoaded]);
 
   const verifyVoter = async (verifiedStatus, address) => {
     await ElectionInstance.methods.verifyVoter(verifiedStatus, address).send({
@@ -86,9 +86,9 @@ const Verification = () => {
   const renderUnverifiedVoters = useCallback(
     (voter) => {
       return (
-        <div className="">
+        <div className="my-4">
           {voter.isVerified ? (
-            <div className="border-2 border-black rounded-lg flex flex-col items-start shadow-xl w-[50vw] h-fit bg-cyan-50">
+            <div className="border-2 border-red-200 rounded-xl flex flex-col items-startshadow-xl w-[50vw] h-fit bg-cyan-50 text-md font-sans">
               <p className="my-4 self-center font-xl font-semibold">
                 AC: {voter.address}
               </p>
@@ -112,7 +112,7 @@ const Verification = () => {
               </table>
             </div>
           ) : (
-            <div className="border-2 border-black rounded-lg flex flex-col shadow-xl w-[50vw] h-fit bg-cyan-50">
+            <div className="border-2 border-red-200 rounded-xl flex flex-col shadow-xl w-[50vw] h-fit bg-cyan-50 text-md font-sans">
               <table className="w-full h-full ">
                 <tbody>
                   <tr>
@@ -173,15 +173,17 @@ const Verification = () => {
           <Navbar />
         </div>
         <Link
-          href="/"
+          href="/home"
           className="w-fit flex items-center text-3xl font-extrabold tracking-tight font-serif"
         >
           VOTEZ
         </Link>
-        <div className="h-[80vh] flex justify-center items-center">
-          <p className="font-mono text-3xl font-extrabold">
-            Loading Web3, accounts, and contract...
+        <div className="h-[80vh] flex flex-col justify-center items-center text-zinc-700">
+          <p className="font-mono text-3xl font-extrabold mb-8">
+            Loading Web3, Accounts, and Contract
           </p>
+          <AiOutlineLoading3Quarters className="text-4xl animate-spin font-extrabold" />
+
         </div>
       </main>
     );
@@ -194,7 +196,7 @@ const Verification = () => {
           <Navbar />
         </div>
         <Link
-          href="/"
+          href="/home"
           className="w-fit flex items-center text-3xl font-extrabold tracking-tight font-serif"
         >
           VOTEZ
@@ -210,30 +212,29 @@ const Verification = () => {
         <NavbarAdmin />
       </div>
       <Link
-        href="/"
+        href="/home"
         className="w-fit flex items-center text-3xl font-extrabold tracking-tight font-serif"
       >
         VOTEZ
       </Link>
-      <div className=" h-fit flex flex-col items-center justify-start space-y-6 py-14">
-        <h3 className="text-center text-3xl font-sans font-bold ">
-          Verification
-        </h3>
-        <p className="block text-center text-[5vw] font-mono font-extrabold ">
-          Total Voters: {voters.length}
+      <div className=" h-fit flex flex-col items-center justify-start py-14">
+        <p className="text-center text-3xl font-sans font-bold tracking-wide text-zinc-700">
+          Total Voters : <span className="text-green-500 text-4xl font-mono">{voters.length}</span>
         </p>
         {voters.length < 1 ? (
-          <div className="text-center text-xl text-orange-400 font-bold">
+          <div className="text-xl text-orange-400 font-bold mt-24">
             None Has Registered Yet
           </div>
         ) : (
           <div className="flex flex-col items-center justify-start pt-8 w-[60vw] h-fit">
-            <div className="text-center text-2xl font-sans font-bold mb-8">
+            <div className="text-center text-xl font-mono font-semibold text-zinc-700 mb-8">
               List of registered voters
             </div>
-            {voters.map((voter, index) => (
-              <div key={index}>{renderUnverifiedVoters(voter)}</div>
-            ))}
+            <div className="flex flex-col-reverse">
+              {voters.map((voter, index) => (
+                <div key={index}>{renderUnverifiedVoters(voter)}</div>
+              ))}
+            </div>
           </div>
         )}
       </div>

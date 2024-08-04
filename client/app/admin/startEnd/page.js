@@ -7,6 +7,7 @@ import AdminOnly from "../../Components/AdminOnly";
 import getWeb3 from "../../../getWeb3";
 import Election from "../../../contracts/Election.json";
 import Link from "next/link";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const StartEnd = () => {
   const [ElectionInstance, setElectionInstance] = useState(undefined);
@@ -15,6 +16,7 @@ const StartEnd = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [elStarted, setElStarted] = useState(false);
   const [elEnded, setElEnded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const loadBlockchainData = async () => {
@@ -41,6 +43,7 @@ const StartEnd = () => {
         setElStarted(start);
         const end = await instance.methods.getEnd().call();
         setElEnded(end);
+        setIsLoaded(true);
       } catch (error) {
         alert(
           `Failed to load web3, accounts, or contract. Check console for details.`
@@ -49,13 +52,10 @@ const StartEnd = () => {
       }
     };
 
-    if (!window.location.hash) {
-      window.location = window.location + "#loaded";
-      window.location.reload();
-    } else {
+    if (!isLoaded) {
       loadBlockchainData();
     }
-  }, []);
+  }, [isLoaded]);
 
   const startElection = async () => {
     await ElectionInstance.methods
@@ -78,15 +78,17 @@ const StartEnd = () => {
           <Navbar />
         </div>
         <Link
-          href="/"
+          href="/home"
           className="w-fit flex items-center text-3xl font-extrabold tracking-tight font-serif"
         >
           VOTEZ
         </Link>
-        <div className="h-[80vh] flex justify-center items-center">
-          <p className="font-mono text-3xl font-extrabold">
-            Loading Web3, accounts, and contract...
+        <div className="h-[80vh] flex flex-col justify-center items-center text-zinc-700">
+          <p className="font-mono text-3xl font-extrabold mb-8">
+            Loading Web3, Accounts, and Contract
           </p>
+          <AiOutlineLoading3Quarters className="text-4xl animate-spin font-extrabold" />
+
         </div>
       </main>
     );
@@ -99,7 +101,7 @@ const StartEnd = () => {
           <Navbar />
         </div>
         <Link
-          href="/"
+          href="/home"
           className="w-fit flex items-center text-3xl font-extrabold tracking-tight font-serif"
         >
           VOTEZ
@@ -110,12 +112,12 @@ const StartEnd = () => {
   }
 
   return (
-    <main className=" h-screen w-full overflow-auto flex flex-col gap-8 px-20 pt-8">
+    <main className="h-screen w-full overflow-auto flex flex-col gap-8 px-20 pt-8">
       <div className="self-center absolute w-fit ">
         <NavbarAdmin />
       </div>
       <Link
-        href="/"
+        href="/home"
         className="w-fit flex items-center text-3xl font-extrabold tracking-tight font-serif"
       >
         VOTEZ

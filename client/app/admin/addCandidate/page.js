@@ -7,6 +7,8 @@ import getWeb3 from "../../../getWeb3";
 import Election from "../../../contracts/Election.json";
 import AdminOnly from "../../Components/AdminOnly";
 import Link from "next/link";
+import { AiOutlineLoading, AiOutlineLoading3Quarters } from "react-icons/ai";
+
 
 const AddCandidate = () => {
   const [ElectionInstance, setElectionInstance] = useState(undefined);
@@ -81,15 +83,17 @@ const AddCandidate = () => {
           <Navbar />
         </div>
         <Link
-          href="/"
+          href="/home"
           className="w-fit flex items-center text-3xl font-extrabold tracking-tight font-serif"
         >
           VOTEZ
         </Link>
-        <div className="h-[80vh] flex justify-center items-center">
-          <p className="font-mono text-3xl font-extrabold">
-            Loading Web3, accounts, and contract...
+        <div className="h-[80vh] flex flex-col justify-center items-center text-zinc-700">
+          <p className="font-mono text-3xl font-extrabold mb-8">
+            Loading Web3, Accounts, and Contract
           </p>
+          <AiOutlineLoading3Quarters className="text-4xl animate-spin font-extrabold" />
+
         </div>
       </main>
     );
@@ -102,7 +106,7 @@ const AddCandidate = () => {
           <Navbar />
         </div>
         <Link
-          href="/"
+          href="/home"
           className="w-fit flex items-center text-3xl font-extrabold tracking-tight font-serif"
         >
           VOTEZ
@@ -113,40 +117,41 @@ const AddCandidate = () => {
   }
 
   return (
-    <main className=" h-screen w-full overflow-auto flex flex-col gap-8 px-20 pt-8">
+    <main className=" h-screen w-full overflow-auto snap-y snap-mandatory flex flex-col gap-8 px-20 pt-8">
       <div className="self-center absolute w-fit ">
         <NavbarAdmin />
       </div>
       <Link
-        href="/"
+        href="/home"
         className="w-fit flex items-center text-3xl font-extrabold tracking-tight font-serif"
       >
         VOTEZ
       </Link>
       <div className="px-14">
-        <div className=" h-[80vh] flex flex-col items-center justify-start py-14 space-y-6  mb-24">
-          <p className="text-center text-3xl font-sans font-bold ">
-            Add a new candidate
+        <div className="snap-end snap-always h-[80vh] flex flex-col items-center justify-start py-14 space-y-6  mb-24">
+          <p className="text-center text-3xl font-sans font-bold tracking-wide">
+            Total Candidates : <span className="text-green-500 text-4xl font-mono">{candidateCount}</span>
           </p>
-          <p className="text-center text-xl font-mono font-bold ">
-            Total candidates: {candidateCount}
+          <p className="text-center text-xl font-mono font-semibold text-zinc-700 ">
+            Add a New Candidate
           </p>
-          <div className="container-item ">
+          
+          <div className="bg-white ring-2 ring-red-200 shadow-xl rounded-xl z-0 px-8 py-8 mb-4 w-[45vw] flex flex-col items-start select-none">
             <form className="form flex flex-col" onSubmit={addCandidate}>
-              <label className="text-center text-lg font-sans font-semibold mb-8 w-[40vw] flex justify-end gap-6 items-center">
+              <label className="text-center text-lg font-sans font-semibold mb-8 w-[40vw] flex justify-end pr-12 gap-6 items-center text-red-900">
                 Candidate&apos;s Name
                 <input
-                  className="p-4 font-normal"
+                  className="bg-gray-50 ring-2 ring-zinc-200 text-sm rounded-lg focus:ring-zinc-300 p-4 text-gray-700 "
                   type="text"
                   placeholder="eg. Marcus"
                   value={header}
                   onChange={updateHeader}
                 />
               </label>
-              <label className="text-center text-lg font-sans font-semibold mb-8 w-[40vw] flex justify-end gap-6 items-center">
+              <label className="text-center text-lg font-sans font-semibold mb-8 w-[40vw] flex justify-end pr-12 gap-6 items-center text-red-900">
                 Slogan
                 <input
-                  className="p-4 font-normal"
+                  className="bg-gray-50 ring-2 ring-zinc-200 text-sm rounded-lg focus:ring-zinc-300 p-4 text-gray-700 "
                   type="text"
                   placeholder="eg. It is what it is"
                   value={slogan}
@@ -175,18 +180,22 @@ const AddCandidate = () => {
 function loadAdded(candidates) {
   const renderAdded = (candidate) => {
     return (
-      <div key={candidate.id} className="container-list success">
-        <div>
-          {+candidate.id + 1}. <strong>{candidate.header}</strong>:{" "}
-          {candidate.slogan}
-        </div>
+      <div key={candidate.id} className="relative ring-2 ring-red-200 bg-white p-4 flex flex-col items-center justify-start w-[26vw] h-auto rounded-lg shadow-lg gap-6 ">
+          <div className="absolute self-center left-6 text-xl font-sans font-bold border-2 border-zinc-700 rounded-full px-2 text-white bg-zinc-700">
+            {+candidate.id + 1}
+          </div>
+          <div className="text-2xl font-serif capitalize">{candidate.header}</div>
+          <div className="w-full max-w-full break-words overflow-hidden text-ellipsis p-2 text-lg font-mono capitalize self-start border-t-2">            
+            {candidate.slogan}
+          </div>
+
       </div>
     );
   };
   return (
-    <div className="container-main h-fit p-8">
+    <div className="snap-start snap-always border-black h-[100vh] flex flex-col items-center justify-start pt-24 mx-14">
       <div className="container-item info">
-        <center className="text-center text-3xl font-sans font-bold ">
+        <center className="text-center text-3xl my-8 font-sans font-bold ">
           Candidates List
         </center>
       </div>
@@ -198,11 +207,7 @@ function loadAdded(candidates) {
         </div>
       ) : (
         <div
-          className="container-item"
-          style={{
-            display: "block",
-            backgroundColor: "#DDFFFF",
-          }}
+          className="border-2 border-orange-200 bg-orange-100/50 rounded-lg w-full h-[63vh] mb-4 grid grid-cols-2 justify-items-center overflow-auto scroll-smooth gap-12 p-4"
         >
           {candidates.map(renderAdded)}
         </div>
